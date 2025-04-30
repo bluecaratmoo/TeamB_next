@@ -11,8 +11,8 @@ import "@/styles/globals.css";
 
 const images = [
   "/photo/banner_1.png",
-  "/photo/banner_1.png",
-  "/photo/banner_1.png",
+  "/photo/banner_2.png",
+
 ];
 
 export default function BannerSlider() {
