@@ -24,4 +24,6 @@ const HeroSection = React.forwardRef((_, ref) => {
   );
 });
 
+HeroSection.displayName = 'HeroSection';
+
 export default HeroSection;
