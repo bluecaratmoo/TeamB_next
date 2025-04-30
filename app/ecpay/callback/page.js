@@ -1,12 +1,12 @@
 'use client'
 
 import React from 'react'
-
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { isDev } from '@/config'
 import Link from 'next/link'
 
-export default function ECPayCallback() {
+function ECPayCallback() {
   // 取得網址參數，例如: ?RtnCode=xxxxxx
   const searchParams = useSearchParams()
 
@@ -28,6 +28,14 @@ export default function ECPayCallback() {
       <p>回應訊息: {searchParams?.get('RtnMsg')}</p>
     </>
   )
+}
+
+export default function WrappedECPayCallback() {
+  return (
+    <Suspense fallback={null}>
+      <ECPayCallback />
+    </Suspense>
+  );
 }
 
 // 返回的範例:

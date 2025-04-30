@@ -1,4 +1,6 @@
 "use client"
+import { Suspense } from 'react'
+
 import React, { useState } from 'react'
 import styles from "../../../styles/auth/reset-password.module.css"
 import axios from "axios"
@@ -145,4 +147,10 @@ const ResetPassword = () => {
   )
 }
 
-export default ResetPassword
+export default function WrappedResetPassword() {
+  return (
+    <Suspense fallback={null}>
+      <ResetPassword />
+    </Suspense>
+  );
+}

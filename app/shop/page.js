@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 import { useSearchParams } from "next/navigation";
@@ -15,7 +16,7 @@ import Card from "@/components/shop/card";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import BannerSlider from "@/components/shop/BannerSlider";
 
-export default function ShopPage() {
+function ShopPage() {
   const searchParams = useSearchParams();
   const [keyword, setKeyword] = useState("");
   const cardRef = useRef(null);
@@ -280,5 +281,13 @@ export default function ShopPage() {
       <Footer />
       <ScrollToTopButton />
     </>
+  );
+}
+
+export default function WrappedShopPage() {
+  return (
+    <Suspense fallback={null}>
+      <ShopPage />
+    </Suspense>
   );
 }

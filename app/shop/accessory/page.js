@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useState, useEffect } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
 import { AB_LIST } from "@/config/shop-api-path";
@@ -13,7 +14,7 @@ import Link from "next/link";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import FilterSideBar from "@/components/shop/FilterSideBar";
 
-export default function TopPage() {
+function AccessoryPage() {
   const searchParams = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
   const [visibleData, setVisibleData] = useState([]);
@@ -217,5 +218,14 @@ export default function TopPage() {
       <Footer />
       <ScrollToTopButton />
     </>
+  );
+}
+
+
+export default function WrappedAccessoryPage() {
+  return (
+    <Suspense fallback={null}>
+      <AccessoryPage />
+    </Suspense>
   );
 }

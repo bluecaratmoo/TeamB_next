@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import Styles from "./activity-list.module.css";
@@ -13,7 +14,7 @@ import Swal from "sweetalert2"; // 引入 SweetAlert2
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 
-export default function ActivityListPage() {
+function ActivityListPage() {
   const { auth } = useAuth();
   const searchParams = useSearchParams();
   const keywordFromURL = searchParams.get("search");
@@ -547,5 +548,14 @@ export default function ActivityListPage() {
 <ScrollToTopButton />
 
     </>
+  );
+}
+
+
+export default function WrappedActivityListPage() {
+  return (
+    <Suspense fallback={null}>
+      <ActivityListPage />
+    </Suspense>
   );
 }

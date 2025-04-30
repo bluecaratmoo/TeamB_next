@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useRef, useEffect } from 'react'
 import { popupCenter, subscribe, unsubscribe, publish } from './popup-window'
 import { useSearchParams } from 'next/navigation'

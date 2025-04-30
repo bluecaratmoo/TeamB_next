@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import styles from '@/app/cart/cart.module.css'
 import orderStyles from './orderResult.module.css'
 import Button1 from '../cart/_components/button1'
@@ -15,7 +16,7 @@ import "@/public/TeamB_Icon/style.css"
 import {ORDER_ADD_POST} from '@/config/orders-api-path'
 
 
-export default function OrderResultPage() {
+function OrderResultPage() {
   const { auth } = useAuth()
 
   // 從useCart解構所需的context的value屬性
@@ -211,4 +212,12 @@ export default function OrderResultPage() {
       <Footer/>
     </>
   )
+}
+
+export default function WrappedOrderResultPage() {
+  return (
+    <Suspense fallback={null}>
+      <OrderResultPage />
+    </Suspense>
+  );
 }
