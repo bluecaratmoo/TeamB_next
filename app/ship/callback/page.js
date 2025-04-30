@@ -1,8 +1,9 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useShip711StoreCallback } from '../_hooks/use-ship-711-store'
 
-export default function ShipCallbackPage() {
+function ShipCallbackPage() {
   // 呼叫回送到母視窗用的勾子函式
   useShip711StoreCallback()
 
@@ -24,4 +25,12 @@ export default function ShipCallbackPage() {
       </div>
     </>
   )
+}
+
+export default function WrappedShipCallbackPage() {
+  return (
+    <Suspense fallback={null}>
+      <ShipCallbackPage />
+    </Suspense>
+  );
 }

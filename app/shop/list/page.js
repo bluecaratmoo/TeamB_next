@@ -1,4 +1,6 @@
 "use client";
+
+import { Suspense } from "react";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import {
@@ -17,7 +19,7 @@ import {
 // import { useAuth } from "@/context/auth-context";
 import LikeHeart from "../../../components/like-hearts";
 
-export default function ABListPage() {
+function ListPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const searchRef = useRef();
@@ -224,5 +226,13 @@ export default function ABListPage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function WrappedListPage() {
+  return (
+    <Suspense fallback={null}>
+      <ListPage />
+    </Suspense>
   );
 }
