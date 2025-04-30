@@ -1,3 +1,3 @@
 export const metadata = {
-    title: "上衣 | TeamB",
+    title: "上衣",
   };
