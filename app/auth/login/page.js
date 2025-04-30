@@ -8,10 +8,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
-import {MB_GOOGLE_POST} from "../../../config/auth.api"
+import { MB_GOOGLE_POST } from "../../../config/auth.api";
 
 const Login = () => {
-  
   const { login, setAuth } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,15 +18,18 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const [lastVisitedPage, setLastVisitedPage] = useState("/auth/member");
 
   useEffect(() => {
+    const storedPage = localStorage.getItem("lastVisitedPage");
+    if (storedPage && storedPage !== "/auth/login") {
+      setLastVisitedPage(storedPage);
+    }
     // ✅ 關鍵：禁止 Google 自動登入造成 token 錯誤
     if (window.google?.accounts?.id) {
       window.google.accounts.id.disableAutoSelect();
     }
   }, []);
-
-  const lastVisitedPage = localStorage.getItem("lastVisitedPage") || "/auth/member";
 
   const validateEmail = (email) => {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -60,7 +62,9 @@ const Login = () => {
         hideProgressBar: true,
       });
       setTimeout(() => {
-        router.push(lastVisitedPage !== "/auth/login" ? lastVisitedPage : "/auth/member");
+        router.push(
+          lastVisitedPage !== "/auth/login" ? lastVisitedPage : "/auth/member"
+        );
       }, 500);
     } else {
       setEmailError("帳號錯誤");
@@ -106,7 +110,11 @@ const Login = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className={styles.eyeIcon}
               >
-                <i className={`fa-regular ${showPassword ? "fa-eye" : "fa-eye-slash"}`} />
+                <i
+                  className={`fa-regular ${
+                    showPassword ? "fa-eye" : "fa-eye-slash"
+                  }`}
+                />
               </button>
             </div>
             {passwordError && <p className={styles.error}>{passwordError}</p>}
@@ -136,30 +144,31 @@ const Login = () => {
               const res = await fetch(MB_GOOGLE_POST, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ credential: credentialResponse.credential }),
+                body: JSON.stringify({
+                  credential: credentialResponse.credential,
+                }),
               });
 
               const result = await res.json();
 
               if (result.success) {
                 const authData = {
-  id: result.data.id,
-  email: result.data.email,
-  name: result.data.name,
-  avatar: result.data.avatar,
-  birthday_date: result.data.birthday_date,
-  gender: result.data.gender, // ✅ 新增
-  phone: result.data.phone,
-  address: result.data.address,
-  city_id: result.data.city_id, // ✅ 新增
-  area_id: result.data.area_id, // ✅ 新增
-  sport: result.data.sport,
-  sportText: result.data.sportText,
-  token: result.data.token,
-};
-setAuth(authData);
-localStorage.setItem("TEAM_B-auth", JSON.stringify(authData));
-
+                  id: result.data.id,
+                  email: result.data.email,
+                  name: result.data.name,
+                  avatar: result.data.avatar,
+                  birthday_date: result.data.birthday_date,
+                  gender: result.data.gender, // ✅ 新增
+                  phone: result.data.phone,
+                  address: result.data.address,
+                  city_id: result.data.city_id, // ✅ 新增
+                  area_id: result.data.area_id, // ✅ 新增
+                  sport: result.data.sport,
+                  sportText: result.data.sportText,
+                  token: result.data.token,
+                };
+                setAuth(authData);
+                localStorage.setItem("TEAM_B-auth", JSON.stringify(authData));
 
                 setAuth(authData); // ✅ 更新 context
                 localStorage.setItem("TEAM_B-auth", JSON.stringify(authData));
